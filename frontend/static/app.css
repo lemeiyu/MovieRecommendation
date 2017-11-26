@@ -1,5 +1,5 @@
 body {
-  background-color: #311e3e;
+  background-color: #5d90cd;
 }
 .logo{
   padding-top: 180px;
@@ -10,12 +10,12 @@ body {
 }
 
 #input-box {
-  background-color: #87314e;
+  background-color: #448bd8;
   color: white;
 }
 
 .search-glyph {
-  color: #df405a;
+  color: white;
 }
 
 .search-icon {
@@ -56,11 +56,11 @@ body {
 
 .list-group-item {
   padding: 5px;
-  background-color: #512645;
+  background-color: #5d90cd;
 }
 
 .panel-heading {
-  background-color: #87314e !important;
+  background-color: #448bd8 !important;
 }
 
 h3.panel-title {
@@ -68,13 +68,13 @@ h3.panel-title {
 }
 
 .badge {
-    background-color: #512645 !important;
+    background-color: #5d90cd !important;
     font-size: 20px !important;
     color: white !important;
 }
 
 .panel-success {
-  background-color: #512645;
+  background-color: #5d90cd;
   font-size: 17px;
 }
 

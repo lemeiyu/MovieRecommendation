@@ -7,7 +7,7 @@ A RESTful JSON API is used to send requests to Spark as well as receive the outp
 
 ## Setup
 - Download Spark from http://spark.apache.org/downloads.html
-- Clone this repository: `git clone https://github.com/ece4813-movie-recommendation/Movie-Recommendation-Project.git`
+- Clone this repository: `git clone https://github.com/lemeiyu/MovieRecommendation.git`
 - `cd` into this directory, install dependencies by typing `./setup.sh`
 
 ## Running the code

@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # need to change pfFiles to your local directory to point to engine.py
 conf = SparkConf().setAppName("movie_recommendation_server")
-sc = SparkContext(conf=conf, pyFiles=['/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/frontend/engine.py'])
+sc = SparkContext(conf=conf, pyFiles=['engine.py'])
 
 global data
 global userid
