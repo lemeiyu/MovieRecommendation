@@ -55,4 +55,4 @@ if __name__ == "__main__":
     recomsys = RecommendationSystem(sc)
 
     data = {"data": "Empty"}
-    app.run()
+    app.run(host='0.0.0.0')
