@@ -221,7 +221,7 @@ class RecommendationSystem():
             info['rating'] = 3
         else:
             #avg = r.map(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
-            avg = r.groupBy('rating').avg().collect()
+            avg = r.groupBy().avg('rating')
             info['rating'] = avg
 
         return info
