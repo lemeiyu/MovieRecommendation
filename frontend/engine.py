@@ -220,7 +220,7 @@ class RecommendationSystem():
         if r.count()==0:
             info['rating'] = 4.6
         else:
-            avg = r.map(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
+            avg = r.foreach(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
             info['rating'] = avg
 
         return info
