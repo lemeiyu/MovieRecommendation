@@ -10,7 +10,7 @@ sc = SparkContext("local", "MovielensMovieImporter") # Initialize the Spark cont
 sqlContext = SQLContext(sc) # Initialize the SparkSQL context
 
 # Read in the text file as an RDD
-data = sc.textFile('/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/integration/movies.csv')
+data = sc.textFile('/home/ubuntu/Recommender/MovieRecommendation/integration/movies.csv')
 
 header = data.first() # Get the csv header
 #data = data.filter(lambda line: line != header) # Filter out the csv header

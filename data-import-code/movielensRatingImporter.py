@@ -11,7 +11,7 @@ sqlContext = SQLContext(sc) # Initialize the SparkSQL context
 
 # Read in the text file as an RDD
 #data = sc.textFile(SPARK_HOME + '/ml-latest-small/ratings.csv')
-data = sc.textFile('/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/integration/ratings_small.csv')
+data = sc.textFile('/home/ubuntu/Recommender/MovieRecommendation/integration/ratings_small.csv')
 
 header = data.first() # Get the csv header
 #data = data.filter(lambda line: line != header) # Filter out the csv header
@@ -41,4 +41,4 @@ rows = data.map(lambda r: Row(userId=r[0], movieId=r[1], rating=r[2], timestamp=
 # Create the schema for movies and register a table for it
 schemaRatings = sqlContext.createDataFrame(rows)
 schemaRatings.registerTempTable("ratings_small")
-schemaRatings.save('/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/integration/tables/ratings_small')
+schemaRatings.save('/home/ubuntu/Recommender/MovieRecommendation/integration/tables/ratings_small')

@@ -13,7 +13,7 @@ sc = SparkContext("local", "MovielensDetailImporter") # Initialize the Spark con
 sqlContext = SQLContext(sc) # Initialize the SparkSQL context
 
 # Read in the text file as an RDD
-data = sc.textFile('/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/integration/modified.csv')
+data = sc.textFile('/home/ubuntu/Recommender/MovieRecommendation/integration/modified.csv')
 
 header = data.first() # Get the csv header
 #data = data.filter(lambda line: line != header) # Filter out the csv header
@@ -48,4 +48,4 @@ rows = data.map(lambda r: Row(movieId=r[0], imdbId=r[1], tmdbId=r[2], director=r
 # Create the schema for movies and register a table for it
 schemaLinks = sqlContext.createDataFrame(rows)
 schemaLinks.registerTempTable("detail")
-schemaLinks.save('/media/psf/Home/CS/GIT_HUB/Movie-Recommendation-Project/integration/tables/detail')
+schemaLinks.save('/home/ubuntu/Recommender/MovieRecommendation/integration/tables/detail')
