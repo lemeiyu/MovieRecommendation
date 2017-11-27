@@ -216,11 +216,12 @@ class RecommendationSystem():
 
         r = self.rating_df.where(self.rating_df['movieId'] == movieid)
 
-        # default rating to be 4.6
+        # default rating to be 3
         if r.count()==0:
-            info['rating'] = 4.6
+            info['rating'] = 3
         else:
-            avg = r.foreach(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
+            #avg = r.map(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
+            avg = r.groupBy('rating').avg().collect()
             info['rating'] = avg
 
         return info
