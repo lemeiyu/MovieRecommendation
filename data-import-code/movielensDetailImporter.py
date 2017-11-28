@@ -7,22 +7,24 @@ SPARK_HOME = os.environ['SPARK_HOME']
 # Regex used to seperate movie movieId, imdbId, and tmdbId
 RE = re.compile(r'(?P<movieId>\d+),(?P<imdbId>\d+),(?P<tmdbId>\d+),(?P<director>.+),(?P<cast>.+)')
 
-#(r'(?P<movieId>\d+),"?(?P<name>.+)\((?P<year>\d+)\) ?"?,(?P<genres>.+)')
+# (r'(?P<movieId>\d+),"?(?P<name>.+)\((?P<year>\d+)\) ?"?,(?P<genres>.+)')
 
-sc = SparkContext("local", "MovielensDetailImporter") # Initialize the Spark context
-sqlContext = SQLContext(sc) # Initialize the SparkSQL context
+sc = SparkContext("local", "MovielensDetailImporter")  # Initialize the Spark context
+sqlContext = SQLContext(sc)  # Initialize the SparkSQL context
 
 # Read in the text file as an RDD
 data = sc.textFile('/home/ubuntu/Recommender/MovieRecommendation/integration/modified.csv')
 
-header = data.first() # Get the csv header
-#data = data.filter(lambda line: line != header) # Filter out the csv header
+header = data.first()  # Get the csv header
+
+
+# data = data.filter(lambda line: line != header) # Filter out the csv header
 
 # Split the CSV file into rows
 # Formatter that takes the CSV line and outputs it as a list of datapoints
 # Uses a regex with named groups
 def formatter(line):
-    m = RE.match(line) # Seperates datapoints
+    m = RE.match(line)  # Seperates datapoints
     if (m != None):
         m = m.groupdict()
         movieId = int(m['movieId'])
@@ -36,8 +38,9 @@ def formatter(line):
         print [movieId, imdbId, tmdbId, director, cast]
         return [movieId, imdbId, tmdbId, director, cast]
 
+
 data = data.map(formatter)
-data = data.filter(lambda line: line != None) # Filter out rows that dont match
+data = data.filter(lambda line: line != None)  # Filter out rows that dont match
 
 # Test to make sure all the data is imported
 print data.count()

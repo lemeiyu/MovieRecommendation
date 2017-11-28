@@ -1,11 +1,12 @@
 import imdb
 import csv
 import codecs
-#import unicodedata
 
-#this code add director and cast info to the links.csv file
+# import unicodedata
 
-ia = imdb.IMDb(accessSystem='http') #fetch from imdb web server
+# this code add director and cast info to the links.csv file
+
+ia = imdb.IMDb(accessSystem='http')  # fetch from imdb web server
 
 file_name = 'datasets/links.csv'
 
@@ -20,8 +21,8 @@ for row in reader:
     id = row[1]
     m = ia.get_movie(id)
 
-    director=''
-    cast_list=[]
+    director = ''
+    cast_list = []
     cast = []
 
     if m.get('director'):

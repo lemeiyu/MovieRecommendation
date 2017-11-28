@@ -16,31 +16,35 @@ from pyspark import SparkConf
 from pyspark.mllib.recommendation import ALS
 from pyspark.mllib.recommendation import MatrixFactorizationModel
 from pyspark.mllib.recommendation import Rating
-#import codecs
+
+# import codecs
 
 recsys.algorithm.VERBOSE = True
 
 
-#rating_file = ratings_small.csv
-#movie_file = movies.csv
-#modified_file = modified.csv
-#model = movielens_small
+# rating_file = ratings_small.csv
+# movie_file = movies.csv
+# modified_file = modified.csv
+# model = movielens_small
 
 def get_counts_and_averages(ID_and_ratings_tuple):
     nratings = len(ID_and_ratings_tuple[1])
     return ID_and_ratings_tuple[0], (nratings, float(sum(x for x in ID_and_ratings_tuple[1])) / nratings)
 
+
 class RecommendationSystem():
     # To run on your own machine, you need to initialize with your datapath to the frontend folder
-    def __init__(self, sc, datapath='/home/ubuntu/moviedata/', rating_file='ratings_small.csv', complete_rating_file='ratings.csv', movie_file='movies.csv', detail_file='modified.csv', model='movielens_small'):
+    def __init__(self, sc, datapath='/home/ubuntu/moviedata/', rating_file='ratings_small.csv',
+                 complete_rating_file='ratings.csv', movie_file='movies.csv', detail_file='modified.csv',
+                 model='movielens_small'):
         self.sc = sc
         self.start = True
-        self.rating_file = datapath+rating_file
-        self.complete_rating_file = datapath+complete_rating_file
-        self.movie_file = datapath+movie_file
-        self.detail_file = datapath+detail_file
+        self.rating_file = datapath + rating_file
+        self.complete_rating_file = datapath + complete_rating_file
+        self.movie_file = datapath + movie_file
+        self.detail_file = datapath + detail_file
         self.integration_folder = datapath
-        self.svd = SVD(filename=datapath+model)
+        self.svd = SVD(filename=datapath + model)
         self.svd.load_data(filename=self.rating_file, sep=',', format={'col': 0, 'row': 1, 'value': 2, 'ids': int})
         self.svd.create_matrix()
         self.ia = imdb.IMDb(accessSystem='http')
@@ -48,13 +52,13 @@ class RecommendationSystem():
         # als stuff
         self.sqlContext = SQLContext(self.sc)
         self.movie_data = self.sc.textFile(self.movie_file)
-        self.ratings_data = self.sc.textFile(self.complete_rating_file).map(lambda line: line.split(",")).map(lambda x: (int(x[0]), int(x[1]), float(x[2])))
+        self.ratings_data = self.sc.textFile(self.complete_rating_file).map(lambda line: line.split(",")).map(
+            lambda x: (int(x[0]), int(x[1]), float(x[2])))
         self.als_model_path = datapath + 'Model_Collaborative_Filtering'
         self.als_model = MatrixFactorizationModel.load(sc, self.als_model_path)
-        self.movie_df = self.sqlContext.read.load(datapath+'tables/movies')
-        self.detail_df = self.sqlContext.read.load(datapath+'tables/detail')
-        self.rating_df = self.sqlContext.read.load(datapath+'tables/ratings')
-
+        self.movie_df = self.sqlContext.read.load(datapath + 'tables/movies')
+        self.detail_df = self.sqlContext.read.load(datapath + 'tables/detail')
+        self.rating_df = self.sqlContext.read.load(datapath + 'tables/ratings')
 
     # call this function to get all recommendations
     def get_all_recomm(self, userid, moviename):
@@ -65,7 +69,7 @@ class RecommendationSystem():
         recom2 = self.svd_similar(movieid)
         recom3 = self.als_new(userid)
 
-        #get info about the movie based on movie ids
+        # get info about the movie based on movie ids
         brief_info1 = self.get_brief_list(recom1)
         brief_info2 = self.get_brief_list(recom2)
         brief_info3 = self.get_brief_list(recom3)
@@ -144,8 +148,13 @@ class RecommendationSystem():
         movie_ID_with_avg_ratings_RDD = movie_ID_with_ratings_RDD.map(get_counts_and_averages)
         movie_rating_counts_rdd = movie_ID_with_avg_ratings_RDD.map(lambda x: (x[0], x[1][0]))
 
-        user_recommended_movies_ratings_count_rdd = (user_recommended_ratings_rdd.join(movie_rating_counts_rdd)).map(lambda l: (l[0], l[1][0], l[1][1]))
-        recommended_movies_list = user_recommended_movies_ratings_count_rdd.filter(lambda l: l[2] >= 20).takeOrdered(20, key=lambda x: -x[1])
+        user_recommended_movies_ratings_count_rdd = (user_recommended_ratings_rdd.join(movie_rating_counts_rdd)).map(
+            lambda l: (l[0], l[1][0], l[1][1]))
+        recommended_movies_list = user_recommended_movies_ratings_count_rdd.filter(lambda l: l[2] >= 20).takeOrdered(20,
+                                                                                                                     key=lambda
+                                                                                                                         x: -
+                                                                                                                     x[
+                                                                                                                         1])
 
         return recommended_movies_list
 
@@ -197,7 +206,7 @@ class RecommendationSystem():
         info['title'] = 'unknown'
         info['genres'] = 'unknown'
         info['rating'] = 0
-        #info['imdbid'] = 1
+        # info['imdbid'] = 1
         info['director'] = 'unknown'
         info['cast'] = 'unknown'
 
@@ -216,15 +225,16 @@ class RecommendationSystem():
         r = self.rating_df.where(self.rating_df['movieId'] == movieid)
 
         # default rating to be 3
-        if r.count()==0:
+        if r.count() == 0:
             info['rating'] = 3
         else:
-            avg = r.rdd.map(lambda row:row['rating']).reduce(lambda x, y: x+y)/r.count()
-            #avg = r.groupBy().avg('rating').collect()
-            #avg = 4
+            avg = r.rdd.map(lambda row: row['rating']).reduce(lambda x, y: x + y) / r.count()
+            # avg = r.groupBy().avg('rating').collect()
+            # avg = 4
             info['rating'] = avg
 
         return info
+
 
 # uncomment out for backend engine testing
 """
@@ -246,6 +256,3 @@ if __name__ == '__main__':
     for l in l2:
         print l
     """
-
-
-
