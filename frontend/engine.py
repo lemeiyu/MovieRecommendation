@@ -32,7 +32,7 @@ def get_counts_and_averages(ID_and_ratings_tuple):
 
 class RecommendationSystem():
     # To run on your own machine, you need to initialize with your datapath to the frontend folder
-    def __init__(self, sc, datapath='hdfs://master:9000/user/Moviedata', rating_file='ratings_small.csv', complete_rating_file='ratings.csv', movie_file='movies.csv', detail_file='modified.csv', model='movielens_small'):
+    def __init__(self, sc, datapath='/home/ubuntu/moviedata', rating_file='ratings_small.csv', complete_rating_file='ratings.csv', movie_file='movies.csv', detail_file='modified.csv', model='movielens_small'):
         self.sc = sc
         self.start = True
         self.rating_file = datapath+rating_file
