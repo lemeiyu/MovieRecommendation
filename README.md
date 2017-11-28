@@ -3,7 +3,7 @@ A recommendation system for movies based on a large dataset obtained from MovieL
 
 The recommendation system uses Spark MLlib for Machine Learning using the Python API.
 The front end is built using a Flask server and HTML/CSS and JavaScript for the interface.
-A RESTful JSON API is used to send requests to Spark as well as receive the output from the algorithms.
+A RESTful JSON API is used to send requests to Spark as well as receive the output from the server.
 
 ## Setup
 - Download Spark from http://spark.apache.org/downloads.html
@@ -21,12 +21,8 @@ A RESTful JSON API is used to send requests to Spark as well as receive the outp
 
 ## Collaborators
 This is a collaboration of the following people:
-- Thomas Barnes
-- Rohit Belapurkar 
-- Baishen Huang
-- Zeeshan Khan
-- Rashmi Mehere
-- Nishant Shah 
+- Qi Le
+- Huayi Li
 
 ## Reference
 The project is heavily inspired by [this work](https://github.com/jadianes/spark-movie-lens).
